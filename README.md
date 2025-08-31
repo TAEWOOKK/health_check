@@ -14,7 +14,7 @@ com.example.demo2
 │ ├── model
 │ │ └── FoodItem.kt // 음식 데이터 클래스 + 기본 식단 목록 (defaultList)
 │ └── repository
-│ └── FoodRepository.kt // DataStore를 활용한 저장/불러오기/초기화 로직
+│ └─└── FoodRepository.kt // DataStore를 활용한 저장/불러오기/초기화 로직
 │
 ├── ui
 │ └── main
