@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 // 이 함수가 Compose UI 트리의 한 화면 단위임을 표시
 @Composable
 // Activity 등에서 넘겨준 Context 사용(DataStore 등에 필요)
-fun MyFirstScreen(context: Context) {
+fun MainScreen(context: Context) {
     // 한 번만 생성해 기억하는 리포지토리 인스턴스
     val repository = remember { FoodRepository(context) }
     // Compose 수명에 맞춘 코루틴 스코프(저장 등 비동기 작업에 사용)
@@ -42,15 +42,15 @@ fun MyFirstScreen(context: Context) {
 
     // 화면이 처음 구성될 때 1회 실행
     LaunchedEffect(Unit) {
-        // DataStore에서 불러오고 없으면 defaultList 사용
-        foodList.addAll(repository.loadFoods(FoodItem.defaultList))
+        // DataStore 에서 불러오고 없으면 defaultList 사용
+        foodList.addAll(repository.loadFoods(FoodItem.Companion.defaultList))
     }
 
     // 화면 전체를 세로로 배치하는 컨테이너
     Column(
         // 내부 컴포넌트 가로 가운데 정렬
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        horizontalAlignment = Alignment.Companion.CenterHorizontally,
+        modifier = Modifier.Companion
             .fillMaxSize() // 세로/가로 모두 화면 채우기
             .padding(16.dp) // 바깥 여백
     ) {
@@ -63,7 +63,7 @@ fun MyFirstScreen(context: Context) {
         /*
         제목과 버튼 사이 간격
          */
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.Companion.height(16.dp))
 
         /*
         초기화 버튼(모든 항목을 원래 횟수로 되돌림)
@@ -76,26 +76,33 @@ fun MyFirstScreen(context: Context) {
             },
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary) // 버튼 배경색
         ) {
-            Text("초기화", color = Color.White) // 버튼 라벨
+            Text("초기화", color = Color.Companion.White) // 버튼 라벨
         }
 
         /*
         버튼과 목록 사이 간격
          */
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.Companion.height(16.dp))
 
-        LazyColumn( // 스크롤 가능한 목록 컨테이너
+        /*
+        음식 목록 컨테이너
+         */
+        LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp), // 아이템 간 간격 12dp
-            modifier = Modifier.fillMaxWidth() // 가로 폭 가득
+            modifier = Modifier.Companion.fillMaxWidth() // 가로 폭 가득
         ) {
             items(foodList) { food -> // foodList의 각 항목을 받아 Composable 그리기
-                FoodRow( // 개별 항목 UI(카드, 텍스트, 먹음/완료 버튼 등) — 별도 파일의 Composable
-                    food = food, // 현재 항목 데이터 전달
+
+                // 개별 항목 UI(카드, 텍스트, 먹음/완료 버튼 등) — 별도 파일의 Composable
+                FoodRow(
+                    // 현재 항목 데이터 전달
+                    food = food,
+
                     // onClick 콜백: "먹음" 버튼을 눌렀을 때 실행할 로직
                     onClick = {
                         if (food.remaining > 0) { // 아직 남은 횟수가 있으면
                             food.remaining-- // 화면의 남은 횟수 1 감소(상태 변경 → UI 자동 갱신)
-                            scope.launch { repository.saveFood(food) } // DataStore에도 현재 남은 횟수 저장
+                            scope.launch { repository.saveFood(food) } // DataStore 에도 현재 남은 횟수 저장
                         }
                     }
                 )

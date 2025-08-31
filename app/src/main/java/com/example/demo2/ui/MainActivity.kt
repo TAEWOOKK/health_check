@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.demo2.ui.main.MyFirstScreen
+import com.example.demo2.ui.main.MainScreen
 import com.example.demo2.ui.splash.SplashScreen
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             if (showSplash) {
                 SplashScreen { showSplash = false }
             } else {
-                MyFirstScreen(context = this) // 기존 버튼 화면
+                MainScreen(context = this) // 기존 버튼 화면
             }
         }
     }
