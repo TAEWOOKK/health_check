@@ -7,6 +7,7 @@
 
 ## 📂 프로젝트 구조
 
+```
 com.example.demo2
 │
 ├── data
@@ -20,6 +21,7 @@ com.example.demo2
 │ └── MyFirstScreen.kt // 실제 UI 화면 (식단 체크, 초기화 버튼 포함)
 │
 └── MainActivity.kt // 앱의 진입점 (MyFirstScreen 호출)
+```
 
 
 ---
