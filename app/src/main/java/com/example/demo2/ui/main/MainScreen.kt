@@ -1,6 +1,8 @@
 package com.example.demo2.ui.main
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +30,13 @@ import androidx.compose.ui.unit.sp
 import com.example.demo2.data.model.FoodItem
 import com.example.demo2.data.repository.FoodRepository
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 // 이 함수가 Compose UI 트리의 한 화면 단위임을 표시
 @Composable
@@ -65,13 +74,30 @@ fun MainScreen(context: Context) {
          */
         Spacer(modifier = Modifier.Companion.height(16.dp))
 
+        val koreaZone = ZoneId.of("Asia/Seoul")
+        val today = LocalDate.now(koreaZone)
+        val formatter = DateTimeFormatter.ofPattern("M월 d일, E요일", Locale.KOREAN)
+        val todayString = today.format(formatter)
+
+        Text(
+            text = todayString,
+            fontSize = 18.sp,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(top = 4.dp)
+        )
+
+        /*
+        제목과 버튼 사이 간격
+         */
+        Spacer(modifier = Modifier.Companion.height(16.dp))
+
         /*
         초기화 버튼(모든 항목을 원래 횟수로 되돌림)
          */
         Button(
             onClick = {
                 scope.launch { // 저장이 포함된 비동기 작업이므로 코루틴으로 수행
-                    repository.resetFoods(foodList) // 리스트 상태 갱신 + DataStore에도 초기값 저장
+                    repository.resetFoods(foodList) // 리스트 상태 갱신 + DataStore 에도 초기값 저장
                 }
             },
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary) // 버튼 배경색

@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.demo2"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -48,6 +48,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.9.0")
     implementation(libs.androidx.foundation.layout)
     implementation(libs.androidx.material3) // ✅ 이거 추가
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
 
 
     // 테스트 라이브러리
